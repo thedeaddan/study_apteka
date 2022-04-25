@@ -1,6 +1,7 @@
 import int_inp
 
 apteki = {}
+apteki_names = []
 
 
 class Apteka:
