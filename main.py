@@ -1,12 +1,12 @@
 import int_inp
 
 apteki = {}
-apteki_names = []
-preps = {}
 
 
 class Apteka:
-    def create():
+    def create(self):
+        apteki_names = []
+        preps = {}
         print("Создание аптеки..")
         name = input("Введите имя аптеки: ")
         apteki_names.append(name)
@@ -31,7 +31,8 @@ class Apteka:
             print(apteki)
             i += 1
             print(f"Добавлен препарат {prep_name} со стоимостью {prep_cost}р.")
-    def get_all_fields():
+
+    def get_all_fields(self):
         print("Все данные об аптеках: ")
         if apteki == {}:
             print("Вы ещё не добавляли аптеки...")
@@ -39,12 +40,12 @@ class Apteka:
             for i in apteki_names:
                 print(f"Название: {i}")
                 info = apteki[apteki_names[0]]
-                for i in range(1,info["count"]+1):
+                for i in range(1, info["count"] + 1):
                     detailed_info = info[i]
-                    print(f"    Название препарата:{detailed_info['Имя препарата']} со стоимостью {detailed_info['Стоимость']} рублей")
-                    #print(detailed_info)
-
-Apteka.create()
-Apteka.get_all_fields()
+                    print(
+                        f"    Название препарата:{detailed_info['Имя препарата']} со стоимостью {detailed_info['Стоимость']} рублей")
+                    # print(detailed_info)
 
 
+Apteka.create(self="")
+Apteka.get_all_fields(self="")
