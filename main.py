@@ -1,52 +1,60 @@
-import int_inp
-
-apteki = {}
-apteki_names = []
+from apteka import Apteka
+import sys
 
 
-class Apteka:
-    def create(self):
-        apteki_names = []
-        preps = {}
-        print("Создание аптеки..")
-        name = input("Введите имя аптеки: ")
-        apteki_names.append(name)
-        print("Добавление препаратов. Напишите *, чтоб закончить добавление")
-        i = 1
-        while True:
-            prep_name = input("Введите имя препарата: ")
-            if prep_name == "*":
-                print("Добавление препаратов окончено")
-                break
-            print("Введите стоимость препарата в рублях..")
-            prep_cost = int_inp.check_input()
-            if prep_cost == None:
-                prep_cost = "Стоимость не указана"
-            local_prep = {}
-            local_prep["Имя препарата"] = prep_name
-            local_prep["Стоимость"] = prep_cost
-            preps["count"] = i
-            preps[i] = local_prep
-            apteki[name] = preps
+def phar_list():
+    i = 1
+    for phar in pharmacy_list:
+        print(f'{i}) {phar.data["name"]}')
+        i += 1
+    return i
 
-            print(apteki)
-            i += 1
-            print(f"Добавлен препарат {prep_name} со стоимостью {prep_cost}р.")
+pharmacy_list = list()
+while True:
+    print('Введите help для вывода списка команд..')
+    com = input('Введите команду: ')
 
-    def get_all_fields(self):
-        print("Все данные об аптеках: ")
-        if apteki == {}:
-            print("Вы ещё не добавляли аптеки...")
-        else:
-            for i in apteki_names:
-                print(f"Название: {i}")
-                info = apteki[apteki_names[0]]
-                for i in range(1, info["count"] + 1):
-                    detailed_info = info[i]
-                    print(
-                        f"    Название препарата:{detailed_info['Имя препарата']} со стоимостью {detailed_info['Стоимость']} рублей")
-                    # print(detailed_info)
+    if com == 'create':
+        name = input('Введите название новой аптеки: ')
+        phar = Apteka(name)
+        pharmacy_list.append(phar)
 
+    elif com == 'add pill':
+        print('В какую аптеку вы хотите добавить лекарство (выберите номер)')
+        i = phar_list()
+        num = int(input('Ваш выбор - ')) - 1
+        print('Добавляем в базу новый препарат..')
+        name = input('Название препарата: ')
+        cost = input('Стоимость препарата: ')
+        pharmacy_list[num].add_pill(name, cost)
 
-Apteka.create(self="")
-Apteka.get_all_fields(self="")
+    elif com == 'full info':
+        print('Выберите аптеку о которой вы хотите получить информацию..')
+        i = phar_list()
+        num = int(input('Ваш выбор - ')) - 1
+        pharmacy_list[num].full_info()
+
+    elif com == 'total cost':
+        print('Выберите аптеку, сумму стоимости лекарств которой вы хотите получить')
+        i = phar_list()
+        num = int(input('Я выбираю - ')) - 1
+        pharmacy_list[num].total_cost()
+
+    elif com == 'max cost':
+        print('Выберите аптеку в которой вы хотите узнать максимальную цену лекартва')
+        i = phar_list()
+        num = int(input('Я выбираю - ')) - 1
+        pharmacy_list[num].max_cost()
+
+    elif com == 'help':
+        print('''
+Вот список команд:
+create - Добавить в список аптеку
+add pill - Добавить лекарство в аптеку
+total cost - Узнать сумму стоимости всех лекарств
+max cost - Узнать максимальну цену лекартсва в аптеке
+full info - Получить полную информацию об аптеке
+exit - Выход
+''')
+    elif com == 'exit':
+        sys.exit(0)
